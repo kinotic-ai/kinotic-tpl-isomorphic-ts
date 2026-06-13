@@ -1,0 +1,17 @@
+import type { KinoticProjectConfig } from '@kinotic-ai/os-api'
+
+const config: KinoticProjectConfig = {
+  organization: "{{ organization }}",
+  application: "{{ application }}",
+  entitiesPaths: [
+    {
+      path: "packages/domain/model",
+      repositoryPath: "packages/domain/repositories",
+      mirrorFolderStructure: true
+    }
+  ],
+  fileExtensionForImports: ".js",
+  validate: false
+}
+
+export default config
