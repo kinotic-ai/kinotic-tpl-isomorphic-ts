@@ -18,3 +18,6 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 .turbo
+
+# Local incremental-generation cache written by `bun run generate`
+.kinotic
