@@ -14,13 +14,13 @@
             "type": "string",
             "description": "The project name as a slug, for values that must be npm identifiers"
         },
-        "organization": {
+        "organizationId": {
             "type": "string",
-            "description": "The organization that owns the project"
+            "description": "The id of the organization that owns the project"
         },
-        "application": {
+        "applicationId": {
             "type": "string",
-            "description": "The application the project belongs to"
+            "description": "The id of the application the project belongs to"
         }
     }
 }
