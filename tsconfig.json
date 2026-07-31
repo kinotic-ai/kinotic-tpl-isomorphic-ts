@@ -1,0 +1,10 @@
+{
+	"extends": "./tsconfig.base.json",
+	// `bun run generate` loads this config to resolve the types of your @Entity
+	// classes, so the globs below mirror the entitiesPaths in
+	// .config/kinotic.config.ts. "files" is empty so the config stays valid on a
+	// freshly created project, before any entities have been written.
+	"files": [],
+	"include": ["packages/domain/model/**/*", "packages/domain/repositories/**/*"],
+	"exclude": ["**/node_modules", "**/dist"]
+}
