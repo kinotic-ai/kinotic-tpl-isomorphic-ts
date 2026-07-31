@@ -6,8 +6,6 @@
 		"moduleDetection": "force",
 		"jsx": "react-jsx",
 
-		"experimentalDecorators": true,
-
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,
 		"verbatimModuleSyntax": true,
