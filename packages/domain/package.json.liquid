@@ -1,6 +1,12 @@
 {
     "name": "@{{ projectSlug }}/domain",
     "version": "0.1.0",
+    "files": [
+        "dist",
+        "index.ts",
+        "model",
+        "repositories"
+    ],
     "scripts": {
         "type-check": "tsc --noEmit"
     },
@@ -18,7 +24,12 @@
     },
     "type": "module",
     "exports": {
-        ".": "./index.ts",
+        ".": {
+            "development": "./index.ts",
+            "bun": "./index.ts",
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        },
         "./package.json": "./package.json"
     }
 }

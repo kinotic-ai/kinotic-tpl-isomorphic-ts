@@ -66,9 +66,10 @@ Each microservice or UI is its own workspace package nested under
 `packages/microservices/` or `packages/ui/` (for example
 `packages/microservices/todo-service`). Give it a `package.json` that depends on the
 domain package with `"@{{ projectSlug }}/domain": "workspace:*"`, a `tsconfig.json`
-extending `tsconfig.base.json`, and register it in `bunup.config.ts`. The domain
-package exports its TypeScript source, so imports type-check and run without a
-prior build.
+extending `tsconfig.base.json`, and register it in `bunup.config.ts`. Inside this
+repository the domain package resolves to its TypeScript source (the `development`
+and `bun` export conditions), so imports type-check and run without a prior build;
+consumers that install it from a registry get the built `dist/` output instead.
 
 ## Scripts
 
