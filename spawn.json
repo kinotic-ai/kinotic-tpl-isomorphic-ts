@@ -1,14 +1,26 @@
 {
     "globals": {
-        "kinoticCliVersion": "^4.0.0",
+        "kinoticCliVersion": "^5.0.0",
         "kinoticCoreVersion": "^4.0.0",
-        "kinoticOsApiVersion": "^4.0.0",
+        "kinoticOsApiVersion": "^4.1.0",
         "kinoticPersistenceVersion": "^4.0.0"
     },
     "propertySchema":{
         "projectName": {
             "type": "string",
             "description": "The name of the project you want to create"
+        },
+        "projectSlug": {
+            "type": "string",
+            "description": "The project name as a slug, for values that must be npm identifiers"
+        },
+        "organizationId": {
+            "type": "string",
+            "description": "The id of the organization that owns the project"
+        },
+        "applicationId": {
+            "type": "string",
+            "description": "The id of the application the project belongs to"
         }
     }
 }
