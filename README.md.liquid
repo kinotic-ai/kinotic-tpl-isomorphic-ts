@@ -11,7 +11,7 @@ and client code.
 packages/domain/index.ts      Package entry — export your entities and repositories here
 packages/domain/model         Entity classes you write
 packages/domain/repositories  Repository classes generated from those entities
-packages/microservices        Microservices
+packages/microservices/main   Starter microservice (zone setup + connect)
 packages/ui                   User interfaces
 ```
 
@@ -63,10 +63,11 @@ The Kinotic CLI is installed as a dev dependency, so no global install is requir
 ## Microservices and UI packages
 
 Each microservice or UI is its own workspace package nested under
-`packages/microservices/` or `packages/ui/` (for example
-`packages/microservices/todo-service`). Give it a `package.json` that depends on the
-domain package with `"@{{ projectSlug }}/domain": "workspace:*"`, a `tsconfig.json`
-extending `tsconfig.base.json`, and register it in `bunup.config.ts`. Inside this
+`packages/microservices/` or `packages/ui/`. The starter service at
+`packages/microservices/main` shows the shape — copy it for additional services:
+a `package.json` that depends on the domain package with
+`"@{{ projectSlug }}/domain": "workspace:*"`, a `tsconfig.json` extending
+`tsconfig.base.json`, and an entry registered in `bunup.config.ts`. Inside this
 repository the domain package resolves to its TypeScript source (the `development`
 and `bun` export conditions), so imports type-check and run without a prior build;
 consumers that install it from a registry get the built `dist/` output instead.

@@ -21,3 +21,6 @@ yarn-error.log*
 
 # Local incremental-generation cache written by `bun run generate`
 .kinotic
+
+# Single-file executables built by `bun build --compile`
+bin

@@ -29,5 +29,17 @@ export default defineWorkspace([
 				})
 			]
 		}
+	},
+	{
+		name: 'main',
+		root: 'packages/microservices/main',
+		config: {
+			entry: 'src/main.ts',
+			dts: false
+			// For a production single-file executable run, from the package directory:
+			//   bun build --compile src/main.ts --outfile bin/main
+			// bunup's own `compile` option is not used: it drops an import binding
+			// when bundling @kinotic-ai/core and the binary crashes on startup.
+		}
 	}
 ])

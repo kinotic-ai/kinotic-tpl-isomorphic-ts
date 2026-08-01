@@ -1,0 +1,13 @@
+{
+    "name": "@{{ projectSlug }}/main",
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+        "type-check": "tsc --noEmit"
+    },
+    "dependencies": {
+        "@{{ projectSlug }}/domain": "workspace:*",
+        "@kinotic-ai/core": "catalog:",
+        "@kinotic-ai/os-api": "catalog:"
+    }
+}
