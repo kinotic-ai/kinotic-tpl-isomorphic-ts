@@ -71,6 +71,18 @@ repository the domain package resolves to its TypeScript source (the `developmen
 and `bun` export conditions), so imports type-check and run without a prior build;
 consumers that install it from a registry get the built `dist/` output instead.
 
+For production, build a microservice into a single-file executable from its package
+directory:
+
+```bash
+bun build --compile src/main.ts --outfile bin/<service-name>
+```
+
+This bundles the service together with the domain package's TypeScript source, so no
+prior domain build is needed. Use `bun build --compile` directly for executables:
+bunup's `compile` option currently drops an import binding when bundling the Kinotic
+client libraries and produces a binary that crashes on startup.
+
 ## Scripts
 
 | Script                | Description                                              |
