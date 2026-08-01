@@ -3,6 +3,8 @@
 	// `bun run generate` reads compilerOptions from this file; entity discovery is
 	// driven entirely by the entitiesPaths in .config/kinotic.config.ts. The include
 	// below exists for editors — packages type-check through their own tsconfigs.
+	// "files" is empty so the config stays valid on a freshly created project.
+	"files": [],
 	"include": ["packages/**/*"],
 	"exclude": ["**/node_modules", "**/dist"]
 }
