@@ -2,7 +2,10 @@
     "name": "@{{ projectSlug }}/domain",
     "version": "0.1.0",
     "files": [
-        "dist"
+        "dist",
+        "index.ts",
+        "model",
+        "repositories"
     ],
     "scripts": {
         "type-check": "tsc --noEmit"
@@ -22,13 +25,11 @@
     "type": "module",
     "exports": {
         ".": {
-            "import": {
-                "types": "./dist/index.d.ts",
-                "default": "./dist/index.js"
-            }
+            "development": "./index.ts",
+            "bun": "./index.ts",
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
         },
         "./package.json": "./package.json"
-    },
-    "module": "./dist/index.js",
-    "types": "./dist/index.d.ts"
+    }
 }

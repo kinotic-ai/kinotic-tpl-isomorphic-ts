@@ -16,10 +16,13 @@
     },
     "catalog": {
         "@kinotic-ai/core": "{{ kinoticCoreVersion }}",
+        "@kinotic-ai/os-api": "{{ kinoticOsApiVersion }}",
         "@kinotic-ai/persistence": "{{ kinoticPersistenceVersion }}"
     },
     "workspaces": [
-        "packages/*"
+        "packages/*",
+        "packages/microservices/*",
+        "packages/ui/*"
     ],
     "type": "module"
 }

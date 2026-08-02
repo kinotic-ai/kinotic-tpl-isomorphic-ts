@@ -2,8 +2,8 @@
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": { "declaration": true, "isolatedDeclarations": true },
 	// "files" is intentionally empty so `type-check` passes on a freshly created
-	// project, before any entities have been written. The "include" globs below
-	// mirror the entitiesPaths in .config/kinotic.config.ts.
+	// project, before any source files have been written.
 	"files": [],
-	"include": ["model/**/*", "repositories/**/*"]
+	"include": ["**/*"],
+	"exclude": ["node_modules", "dist"]
 }

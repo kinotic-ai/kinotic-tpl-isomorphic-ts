@@ -8,9 +8,10 @@ and client code.
 
 ```
 .config/kinotic.config.ts     Project config (organization, application, entity paths)
+packages/domain/index.ts      Package entry — export your entities and repositories here
 packages/domain/model         Entity classes you write
 packages/domain/repositories  Repository classes generated from those entities
-packages/microservices        Microservices
+packages/microservices/main   Starter microservice (zone setup + connect)
 packages/ui                   User interfaces
 ```
 
@@ -58,6 +59,30 @@ The Kinotic CLI is installed as a dev dependency, so no global install is requir
 4. Commit and push. Kinotic OS reads entity definitions from the connected GitHub
    repository and synchronizes them for you, so there is nothing to log in to or push
    from your machine.
+
+## Microservices and UI packages
+
+Each microservice or UI is its own workspace package nested under
+`packages/microservices/` or `packages/ui/`. The starter service at
+`packages/microservices/main` shows the shape — copy it for additional services:
+a `package.json` that depends on the domain package with
+`"@{{ projectSlug }}/domain": "workspace:*"`, a `tsconfig.json` extending
+`tsconfig.base.json`, and an entry registered in `bunup.config.ts`. Inside this
+repository the domain package resolves to its TypeScript source (the `development`
+and `bun` export conditions), so imports type-check and run without a prior build;
+consumers that install it from a registry get the built `dist/` output instead.
+
+For production, build a microservice into a single-file executable from its package
+directory:
+
+```bash
+bun build --compile src/main.ts --outfile bin/<service-name>
+```
+
+This bundles the service together with the domain package's TypeScript source, so no
+prior domain build is needed. Use `bun build --compile` directly for executables:
+bunup's `compile` option currently drops an import binding when bundling the Kinotic
+client libraries and produces a binary that crashes on startup.
 
 ## Scripts
 

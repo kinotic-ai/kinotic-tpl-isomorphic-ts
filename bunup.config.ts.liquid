@@ -1,4 +1,5 @@
 import { defineWorkspace } from 'bunup'
+import { exports } from 'bunup/plugins'
 
 // https://bunup.dev/docs/guide/workspaces
 // You define all your packages for you {{ projectName }} here
@@ -6,6 +7,39 @@ import { defineWorkspace } from 'bunup'
 export default defineWorkspace([
 	{
 		name: 'domain',
-		root: 'packages/domain'
+		root: 'packages/domain',
+		config: {
+			plugins: [
+				// The exports plugin keeps package.json exports in sync with the build.
+				// Its auto-generated "." entry lists the dist targets first, and export
+				// condition matching is first-match-wins — the bun runtime would then
+				// always load dist instead of source. So "." is excluded from generation
+				// and spelled out here with the source conditions (development, bun)
+				// ahead of the dist fallbacks used by registry consumers.
+				exports({
+					exclude: ['.'],
+					customExports: () => ({
+						'.': {
+							development: './index.ts',
+							bun: './index.ts',
+							types: './dist/index.d.ts',
+							default: './dist/index.js'
+						}
+					})
+				})
+			]
+		}
+	},
+	{
+		name: 'main',
+		root: 'packages/microservices/main',
+		config: {
+			entry: 'src/main.ts',
+			dts: false
+			// For a production single-file executable run, from the package directory:
+			//   bun build --compile src/main.ts --outfile bin/main
+			// bunup's own `compile` option is not used: it drops an import binding
+			// when bundling @kinotic-ai/core and the binary crashes on startup.
+		}
 	}
 ])
