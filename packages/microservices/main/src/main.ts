@@ -1,4 +1,4 @@
-import { ConnectionInfo, Kinotic } from '@kinotic-ai/core'
+import { Kinotic } from '@kinotic-ai/core'
 import { appZone } from '@kinotic-ai/os-api'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-grpc'
 import { resourceFromAttributes } from '@opentelemetry/resources'
@@ -26,11 +26,10 @@ Kinotic.zonePrefix = appZone(config.organizationId, config.applicationId)
 
 // Instantiate @Publish services here, before connecting.
 
-const connectionInfo = new ConnectionInfo()
-connectionInfo.host = 'localhost'
-connectionInfo.port = 58503
-
-await Kinotic.connect(connectionInfo)
+// Resolves the server from KINOTIC_SERVER_HOST / KINOTIC_SERVER_PORT / KINOTIC_SERVER_USE_SSL and
+// the credentials from KINOTIC_CLIENT_ID + KINOTIC_CLIENT_SECRET, or KINOTIC_TOKEN. Pass a
+// ConnectOptions to override any of it.
+await Kinotic.connect()
 console.log(`main microservice running in zone ${Kinotic.zonePrefix}`)
 
 // Spans are batched, so the last ones are still buffered when the workload is asked to stop.
