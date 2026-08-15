@@ -3,9 +3,13 @@
         "kinoticCliVersion": "^5.0.0",
         "kinoticCoreVersion": "^4.0.0",
         "kinoticOsApiVersion": "^4.1.0",
-        "kinoticPersistenceVersion": "^4.0.0"
+        "kinoticPersistenceVersion": "^4.0.0",
+        "otelExporterTraceOtlpGrpcVersion": "^0.221.0",
+        "otelResourcesVersion": "^2.10.0",
+        "otelSdkNodeVersion": "^0.221.0",
+        "otelSemanticConventionsVersion": "^1.40.0"
     },
-    "propertySchema":{
+    "propertySchema": {
         "projectName": {
             "type": "string",
             "description": "The name of the project you want to create"
