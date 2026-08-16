@@ -1,9 +1,9 @@
 {
     "globals": {
-        "kinoticCliVersion": "^5.0.0",
-        "kinoticCoreVersion": "^4.0.0",
-        "kinoticOsApiVersion": "^4.1.0",
-        "kinoticPersistenceVersion": "^4.0.0",
+        "kinoticCliVersion": "^5.2.0-beta.4",
+        "kinoticCoreVersion": "^5.0.0-beta.5",
+        "kinoticOsApiVersion": "^5.0.0-beta.11",
+        "kinoticPersistenceVersion": "^5.0.0-beta.5",
         "otelExporterTraceOtlpGrpcVersion": "^0.221.0",
         "otelResourcesVersion": "^2.10.0",
         "otelSdkNodeVersion": "^0.221.0",
