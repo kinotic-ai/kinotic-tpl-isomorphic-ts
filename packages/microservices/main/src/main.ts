@@ -28,7 +28,8 @@ telemetry?.start()
 // The zone prefix must be set before any @Publish class is instantiated.
 Kinotic.zonePrefix = appZone(config.organizationId, config.applicationId)
 
-// Instantiate @Publish services here, before connecting.
+// Instantiate @Publish services here. Before or after connect() both work — registrations
+// queue until the connection is up and re-subscribe on every reconnect.
 
 // Resolves the server from KINOTIC_SERVER_HOST / KINOTIC_SERVER_PORT / KINOTIC_SERVER_USE_SSL and
 // the credentials from KINOTIC_CLIENT_ID + KINOTIC_CLIENT_SECRET, or KINOTIC_TOKEN. Pass a
