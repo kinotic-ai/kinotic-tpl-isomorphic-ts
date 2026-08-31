@@ -1,5 +1,5 @@
 import { Kinotic } from '@kinotic-ai/core'
-import { appZone } from '@kinotic-ai/os-api'
+import { appZone } from '@kinotic-ai/management-api'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-grpc'
 import { resourceFromAttributes } from '@opentelemetry/resources'
 import { NodeSDK } from '@opentelemetry/sdk-node'
