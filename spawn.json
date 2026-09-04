@@ -25,6 +25,10 @@
         "applicationId": {
             "type": "string",
             "description": "The id of the application the project belongs to"
+        },
+        "projectId": {
+            "type": "string",
+            "description": "The id of the project in Kinotic OS"
         }
     }
 }
