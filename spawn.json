@@ -3,11 +3,7 @@
         "kinoticCliVersion": "^5.2.0-beta.11",
         "kinoticCoreVersion": "^5.0.0-beta.8",
         "kinoticManagementApiVersion": "^5.0.0-beta.22",
-        "kinoticPersistenceVersion": "^5.0.0-beta.8",
-        "otelExporterTraceOtlpGrpcVersion": "^0.221.0",
-        "otelResourcesVersion": "^2.10.0",
-        "otelSdkNodeVersion": "^0.221.0",
-        "otelSemanticConventionsVersion": "^1.40.0"
+        "kinoticPersistenceVersion": "^5.0.0-beta.8"
     },
     "propertySchema": {
         "projectName": {
