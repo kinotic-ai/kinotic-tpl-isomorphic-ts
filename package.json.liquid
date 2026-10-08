@@ -8,16 +8,16 @@
         "type-check": "bun run --filter '*' type-check"
     },
     "devDependencies": {
-        "@kinotic-ai/kinotic-cli": "{{ kinoticCliVersion }}",
-        "@kinotic-ai/management-api": "{{ kinoticManagementApiVersion }}",
+        "@kinotic-ai/kinotic-cli": "{{ kinoticCliVersion | remove_first: "^" }}",
+        "@kinotic-ai/management-api": "{{ kinoticManagementApiVersion | remove_first: "^" }}",
         "@types/bun": "^1.3.10",
         "bunup": "^0.16.31",
         "typescript": "^5.9.3"
     },
     "catalog": {
-        "@kinotic-ai/core": "{{ kinoticCoreVersion }}",
-        "@kinotic-ai/management-api": "{{ kinoticManagementApiVersion }}",
-        "@kinotic-ai/persistence": "{{ kinoticPersistenceVersion }}"
+        "@kinotic-ai/core": "{{ kinoticCoreVersion | remove_first: "^" }}",
+        "@kinotic-ai/management-api": "{{ kinoticManagementApiVersion | remove_first: "^" }}",
+        "@kinotic-ai/persistence": "{{ kinoticPersistenceVersion | remove_first: "^" }}"
     },
     "workspaces": [
         "packages/*",

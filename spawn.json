@@ -1,9 +1,9 @@
 {
     "globals": {
-        "kinoticCliVersion": "^5.2.0-beta.11",
-        "kinoticCoreVersion": "^5.0.0-beta.8",
-        "kinoticManagementApiVersion": "^5.0.0-beta.22",
-        "kinoticPersistenceVersion": "^5.0.0-beta.8"
+        "kinoticCliVersion": "5.2.0-beta.19",
+        "kinoticCoreVersion": "5.0.0-beta.17",
+        "kinoticManagementApiVersion": "5.0.0-beta.45",
+        "kinoticPersistenceVersion": "5.0.0-beta.12"
     },
     "propertySchema": {
         "projectName": {

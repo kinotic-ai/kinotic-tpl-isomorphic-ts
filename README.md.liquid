@@ -72,19 +72,52 @@ repository the domain package resolves to its TypeScript source (the `developmen
 and `bun` export conditions), so imports type-check and run without a prior build;
 consumers that install it from a registry get the built `dist/` output instead.
 
-The domain package declares `"sideEffects": false`, so a UI that uses entities only as
-types and calls their repositories leaves the decorated entity classes out of its bundle.
-A Vite UI that uses an entity class as a value (`new Customer()`, `instanceof Customer`)
-bundles it, and must compile its decorators, which browsers cannot parse: add
-`@kinotic-ai/persistence` and `typescript` to the UI's dev dependencies and the plugin to
-its `vite.config.ts`:
+A Vite UI that imports the domain package needs two things in its `vite.config.ts`. The
+deployment builds each UI without building the domain package, so the UI aliases the package
+to its TypeScript source. And browsers cannot parse the entity decorators, so a UI that uses
+an entity class as a value (`new Customer()`, `instanceof Customer`) compiles them with a
+plugin; add `typescript` to the UI's dev dependencies for it. The domain package declares
+`"sideEffects": false`, so a UI that uses entities only as types and calls their repositories
+leaves the decorated classes out of its bundle. For a UI at `packages/ui/<name>`:
 
 ```ts
-import { defineConfig } from 'vite'
-import { kinoticDecorators } from '@kinotic-ai/persistence/vite'
+import { fileURLToPath } from 'node:url'
+import { defineConfig, type Plugin } from 'vite'
+import ts from 'typescript'
+
+// Compiles the TC39 decorators on entity and repository classes, which Vite leaves in the bundle
+function kinoticDecorators(): Plugin {
+  return {
+    name: 'kinotic-decorators',
+    enforce: 'pre',
+    transform(code, id) {
+      const file = id.split('?', 1)[0]
+      if (!file.endsWith('.ts') || file.includes('/node_modules/')
+          || !/from\s*['"]@kinotic-ai\/persistence['"]/.test(code)) {
+        return
+      }
+      const result = ts.transpileModule(code, {
+        fileName: file,
+        compilerOptions: {
+          target: ts.ScriptTarget.ES2022,
+          module: ts.ModuleKind.ESNext,
+          useDefineForClassFields: true,
+          sourceMap: true
+        }
+      })
+      return { code: result.outputText, map: result.sourceMapText }
+    }
+  }
+}
 
 export default defineConfig({
-  plugins: [kinoticDecorators()]
+  plugins: [kinoticDecorators()],
+  resolve: {
+    // The deployment builds this UI without building the domain package, so bundle its source
+    alias: {
+      '@{{ projectSlug }}/domain': fileURLToPath(new URL('../../domain/index.ts', import.meta.url))
+    }
+  }
 })
 ```
 
