@@ -72,6 +72,22 @@ repository the domain package resolves to its TypeScript source (the `developmen
 and `bun` export conditions), so imports type-check and run without a prior build;
 consumers that install it from a registry get the built `dist/` output instead.
 
+The domain package declares `"sideEffects": false`, so a UI that uses entities only as
+types and calls their repositories leaves the decorated entity classes out of its bundle.
+A Vite UI that uses an entity class as a value (`new Customer()`, `instanceof Customer`)
+bundles it, and must compile its decorators, which browsers cannot parse: add
+`@kinotic-ai/persistence` and `typescript` to the UI's dev dependencies and the plugin to
+its `vite.config.ts`:
+
+```ts
+import { defineConfig } from 'vite'
+import { kinoticDecorators } from '@kinotic-ai/persistence/vite'
+
+export default defineConfig({
+  plugins: [kinoticDecorators()]
+})
+```
+
 For production, build a microservice into a single-file executable from its package
 directory:
 
