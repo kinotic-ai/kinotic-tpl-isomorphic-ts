@@ -87,8 +87,10 @@ To add a microservice named `<name>`:
 
 3. Publish the microservice's services from `src/main.ts`, where the comment marks the spot.
 
-4. Register it in `bunup.config.ts`: add a comma after the closing `}` of the `domain` entry, then
-   the new entry:
+4. Register it in `bunup.config.ts`, in the array passed to `defineWorkspace`, where every
+   entry but the last ends with a comma. Insert the new entry after the `domain` entry, adding a
+   comma after `domain`'s closing `}` if it has none, and end the new entry with a comma when
+   another entry follows it:
 
    ```ts
    {
