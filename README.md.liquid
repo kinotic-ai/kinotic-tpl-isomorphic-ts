@@ -126,7 +126,8 @@ To add a microservice named `<name>`:
    console.log(`<name> microservice running in zone ${Kinotic.zonePrefix}`)
    ```
 
-4. Register it in `bunup.config.ts`, after the domain entry:
+4. Register it in `bunup.config.ts`: add a comma after the closing `}` of the `domain` entry, then
+   the new entry:
 
    ```ts
    {
