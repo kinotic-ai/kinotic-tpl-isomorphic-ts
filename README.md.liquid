@@ -11,7 +11,7 @@ and client code.
 packages/domain/index.ts      Package entry — export your entities and repositories here
 packages/domain/model         Entity classes you write
 packages/domain/repositories  Repository classes generated from those entities
-packages/microservices/main   Starter microservice (zone setup + connect)
+packages/microservices        Microservices, one package each (none until the project needs one)
 packages/ui                   User interfaces
 ```
 
@@ -63,14 +63,89 @@ The Kinotic CLI is installed as a dev dependency, so no global install is requir
 ## Microservices and UI packages
 
 Each microservice or UI is its own workspace package nested under
-`packages/microservices/` or `packages/ui/`. The starter service at
-`packages/microservices/main` shows the shape — copy it for additional services:
-a `package.json` that depends on the domain package with
-`"@{{ projectSlug }}/domain": "workspace:*"`, a `tsconfig.json` extending
-`tsconfig.base.json`, and an entry registered in `bunup.config.ts`. Inside this
-repository the domain package resolves to its TypeScript source (the `development`
-and `bun` export conditions), so imports type-check and run without a prior build;
-consumers that install it from a registry get the built `dist/` output instead.
+`packages/microservices/` or `packages/ui/`. The project starts with neither: entities and
+their repositories need no microservice, so add one only when the project has services of
+its own to publish with `@Publish`. Every package under `packages/microservices/` runs in a
+VM of its own when the project is pushed.
+
+To add a microservice named `<name>`:
+
+1. `packages/microservices/<name>/package.json`:
+
+   ```json
+   {
+       "name": "@{{ projectSlug }}/<name>",
+       "version": "0.1.0",
+       "type": "module",
+       "scripts": {
+           "type-check": "tsc --noEmit"
+       },
+       "dependencies": {
+           "@{{ projectSlug }}/domain": "workspace:*",
+           "@kinotic-ai/core": "catalog:",
+           "@kinotic-ai/management-api": "catalog:"
+       }
+   }
+   ```
+
+   The unscoped part of `name` is the microservice's identity: lowercase letters, digits
+   and interior dashes.
+
+2. `packages/microservices/<name>/tsconfig.json`:
+
+   ```json
+   {
+       "extends": "../../../tsconfig.base.json",
+       "files": [],
+       "include": ["**/*"],
+       "exclude": ["node_modules", "dist", "bin"]
+   }
+   ```
+
+3. `packages/microservices/<name>/src/main.ts`, the module the deployment runs:
+
+   ```ts
+   import { Kinotic } from '@kinotic-ai/core'
+   import { appZone } from '@kinotic-ai/management-api'
+   import config from '../../../../.config/kinotic.config'
+
+   // Kinotic records a span for every service invocation, on both the calling and the receiving
+   // side. Deployed, the runtime workload preloads the OpenTelemetry SDK into this process and
+   // exports them through its node, so nothing here needs to set telemetry up.
+
+   // The zone prefix must be set before any @Publish class is instantiated.
+   Kinotic.zonePrefix = appZone(config.organizationId, config.applicationId)
+
+   // Instantiate @Publish services here. Before or after connect() both work — registrations
+   // queue until the connection is up and re-subscribe on every reconnect.
+
+   // Resolves the server from KINOTIC_SERVER_HOST / KINOTIC_SERVER_PORT / KINOTIC_SERVER_USE_SSL and
+   // the credentials from KINOTIC_CLIENT_ID + KINOTIC_CLIENT_SECRET, or KINOTIC_TOKEN. Pass a
+   // ConnectOptions to override any of it.
+   await Kinotic.connect()
+   console.log(`<name> microservice running in zone ${Kinotic.zonePrefix}`)
+   ```
+
+4. Register it in `bunup.config.ts`, after the domain entry:
+
+   ```ts
+   {
+       name: '<name>',
+       root: 'packages/microservices/<name>',
+       config: {
+           entry: 'src/main.ts',
+           dts: false
+       }
+   }
+   ```
+
+5. Run `bun install` so the workspace links it, then `bun run type-check`.
+
+A UI is added the same way under `packages/ui/<name>`, with a `build` script that writes
+`dist/index.html`. Inside this repository the domain package resolves to its TypeScript
+source (the `development` and `bun` export conditions), so imports type-check and run
+without a prior build; consumers that install it from a registry get the built `dist/`
+output instead.
 
 A Vite UI that imports the domain package needs two things in its `vite.config.ts`. The
 deployment builds each UI without building the domain package, so the UI aliases the package
