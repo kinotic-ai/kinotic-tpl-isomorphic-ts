@@ -87,28 +87,13 @@ To add a microservice named `<name>`:
 
 3. Publish the microservice's services from `src/main.ts`, where the comment marks the spot.
 
-4. Register it in `bunup.config.ts`, in the array passed to `defineWorkspace`, where every
-   entry but the last ends with a comma. Insert the new entry after the `domain` entry, adding a
-   comma after `domain`'s closing `}` if it has none, and end the new entry with a comma when
-   another entry follows it:
-
-   ```ts
-   {
-       name: '<name>',
-       root: 'packages/microservices/<name>',
-       config: {
-           entry: 'src/main.ts',
-           dts: false
-       }
-   }
-   ```
-
-5. Run `bun install` so the workspace links it, then `bun run type-check`.
+4. Run `bun install` so the workspace links it, then `bun run type-check`. `bunup.config.ts`
+   finds every package under `packages/microservices` on its own, so `bun run build` includes the
+   new microservice with no further change.
 
 A UI is its own package under `packages/ui/<name>`, with a `build` script that writes
-`dist/index.html`. Its `bunup.config.ts` entry sets `entry` to the UI's own entry file, such
-as `src/main.tsx`. Inside this repository the domain package resolves to its TypeScript
-source (the `development` and `bun` export conditions), so imports type-check and run
+`dist/index.html`; it builds with that script rather than through `bunup.config.ts`. Inside
+this repository the domain package resolves to its TypeScript source (the `development` and `bun` export conditions), so imports type-check and run
 without a prior build; consumers that install it from a registry get the built `dist/`
 output instead.
 

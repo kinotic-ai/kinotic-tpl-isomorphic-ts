@@ -1,8 +1,33 @@
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { defineWorkspace } from 'bunup'
 import { exports } from 'bunup/plugins'
 
 // https://bunup.dev/docs/guide/workspaces
-// You define all your packages for you {{ projectName }} here
+// The workspace packages of {{ projectName }}: the domain package, then every microservice found
+// under packages/microservices, so a new microservice needs no entry here
+
+const MICROSERVICES_DIR = 'packages/microservices'
+
+// Each directory directly under packages/microservices with a package.json is a microservice. Its
+// entry is the package.json "main", or src/main.ts when it declares none, as the deployment resolves it.
+function microservices() {
+	const dirs = existsSync(MICROSERVICES_DIR)
+		? readdirSync(MICROSERVICES_DIR, { withFileTypes: true }).filter(d => d.isDirectory())
+		: []
+	return dirs
+		.map(d => join(MICROSERVICES_DIR, d.name))
+		.filter(root => existsSync(join(root, 'package.json')))
+		.map(root => {
+			const manifest = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
+			const main = typeof manifest.main === 'string' && manifest.main.trim() !== '' ? manifest.main : 'src/main.ts'
+			return {
+				name: root.slice(MICROSERVICES_DIR.length + 1),
+				root,
+				config: { entry: main.replace(/^\.\//, ''), dts: false }
+			}
+		})
+}
 
 export default defineWorkspace([
 	{
@@ -29,7 +54,6 @@ export default defineWorkspace([
 				})
 			]
 		}
-	}
-	// Each package added under packages/microservices or packages/ui is registered here too;
-	// README.md shows a microservice's entry
+	},
+	...microservices()
 ])
