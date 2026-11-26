@@ -105,8 +105,9 @@ To add a microservice named `<name>`:
 
 5. Run `bun install` so the workspace links it, then `bun run type-check`.
 
-A UI is its own package under `packages/ui/<name>`, registered in `bunup.config.ts` the same
-way, with a `build` script that writes `dist/index.html`. Inside this repository the domain package resolves to its TypeScript
+A UI is its own package under `packages/ui/<name>`, with a `build` script that writes
+`dist/index.html`. Its `bunup.config.ts` entry sets `entry` to the UI's own entry file, such
+as `src/main.tsx`. Inside this repository the domain package resolves to its TypeScript
 source (the `development` and `bun` export conditions), so imports type-check and run
 without a prior build; consumers that install it from a registry get the built `dist/`
 output instead.
