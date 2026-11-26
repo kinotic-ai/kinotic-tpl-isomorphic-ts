@@ -16,4 +16,4 @@ Kinotic.zonePrefix = appZone(config.organizationId, config.applicationId)
 // the credentials from KINOTIC_CLIENT_ID + KINOTIC_CLIENT_SECRET, or KINOTIC_TOKEN. Pass a
 // ConnectOptions to override any of it.
 await Kinotic.connect()
-console.log(`main microservice running in zone ${Kinotic.zonePrefix}`)
+console.log(`microservice running in zone ${Kinotic.zonePrefix}`)
