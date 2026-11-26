@@ -87,11 +87,30 @@ To add a microservice named `<name>`:
 
 3. Publish the microservice's services from `src/main.ts`, where the comment marks the spot.
 
-4. Run `bun install` so the workspace links it, then `bun run type-check`.
+4. Register it in `bunup.config.ts`, in the array passed to `defineWorkspace`, where every
+   entry but the last ends with a comma. Insert the new entry after the `domain` entry, adding a
+   comma after `domain`'s closing `}` if it has none, and end the new entry with a comma when
+   another entry follows it:
+
+   ```ts
+   {
+       name: '<name>',
+       root: 'packages/microservices/<name>',
+       config: {
+           entry: 'src/main.ts',
+           dts: false
+       }
+   }
+   ```
+
+5. Run `bun install` so the workspace links it, then `bun run type-check`.
 
 A UI is its own package under `packages/ui/<name>`, with a `build` script that writes
-`dist/index.html`. The domain package exports its TypeScript source, so imports type-check and
-run without a build step.
+`dist/index.html`. Its `bunup.config.ts` entry sets `entry` to the UI's own entry file, such
+as `src/main.tsx`. Inside this repository the domain package resolves to its TypeScript
+source (the `development` and `bun` export conditions), so imports type-check and run
+without a prior build; consumers that install it from a registry get the built `dist/`
+output instead.
 
 A Vite UI that imports the domain package needs two things in its `vite.config.ts`. The
 deployment builds each UI without building the domain package, so the UI aliases the package
@@ -149,7 +168,10 @@ directory:
 bun build --compile src/main.ts --outfile bin/<service-name>
 ```
 
-This bundles the service together with the domain package's TypeScript source.
+This bundles the service together with the domain package's TypeScript source, so no
+prior domain build is needed. Use `bun build --compile` directly for executables:
+bunup's `compile` option currently drops an import binding when bundling the Kinotic
+client libraries and produces a binary that crashes on startup.
 
 ## Scripts
 
@@ -157,3 +179,8 @@ This bundles the service together with the domain package's TypeScript source.
 | --------------------- | -------------------------------------------------------- |
 | `bun run generate`    | Generate repository classes from `@Entity` classes        |
 | `bun run type-check`  | Type check every package in the workspace                 |
+| `bun run build`       | Build all packages with bunup                             |
+| `bun run dev`         | Build all packages in watch mode                          |
+
+`build` and `dev` need each package to have an entry point that bunup can find
+(for example `packages/domain/index.ts`) before they produce any output.
