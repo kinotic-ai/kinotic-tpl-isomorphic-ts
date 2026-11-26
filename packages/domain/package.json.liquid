@@ -3,7 +3,6 @@
     "version": "0.1.0",
     "sideEffects": false,
     "files": [
-        "dist",
         "index.ts",
         "model",
         "repositories"
@@ -25,12 +24,7 @@
     },
     "type": "module",
     "exports": {
-        ".": {
-            "development": "./index.ts",
-            "bun": "./index.ts",
-            "types": "./dist/index.d.ts",
-            "default": "./dist/index.js"
-        },
+        ".": "./index.ts",
         "./package.json": "./package.json"
     }
 }

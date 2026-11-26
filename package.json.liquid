@@ -2,8 +2,6 @@
     "name": "{{ projectSlug }}",
     "private": true,
     "scripts": {
-        "build": "bunup",
-        "dev": "bunup --watch",
         "generate": "kinotic generate",
         "type-check": "bun run --filter '*' type-check"
     },
@@ -11,7 +9,6 @@
         "@kinotic-ai/kinotic-cli": "{{ kinoticCliVersion | remove_first: "^" }}",
         "@kinotic-ai/management-api": "{{ kinoticManagementApiVersion | remove_first: "^" }}",
         "@types/bun": "^1.3.10",
-        "bunup": "^0.16.31",
         "typescript": "^5.9.3"
     },
     "catalog": {
